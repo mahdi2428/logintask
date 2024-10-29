@@ -148,7 +148,7 @@ export default function Login(){
 
     {/* <-------------------------responsive-----------------------> */}
 
-    <div className="flex lg:hideen justify-center items-center h-screen text-right mx-2">
+    <div className="flex lg:hidden justify-center items-center h-screen text-right mx-2">
         <div dir="rtl" className="flex justify-evenly border rounded-2xl relative p-10 gap-14">
         <CacheProvider value={cacheRtl}>
         <ThemeProvider theme={theme}>

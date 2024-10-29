@@ -1,4 +1,5 @@
 import React, { createContext, useState } from "react";
+import Cookies from "js-cookie";
 
 export const contextfunction = createContext(null)
 
@@ -30,7 +31,6 @@ export default function Context(props){
     const loginvalue = (e,field) =>{
         setlogininfo((perv)=>({...perv , [field] : e.target.value}))
     }
-    console.log(logininfo)
     const logIn=async()=>{
         let responddata
         await fetch("http://localhost:4000/login",{
@@ -39,13 +39,28 @@ export default function Context(props){
                 Accept : "application/json",
                 "Content-Type" : "application/json"
             },
-            body : JSON.stringify(logininfo)
-        }).then((res)=>res.json()).then((data)=>{responddata = data ; console.log(data)})
+            body : JSON.stringify(logininfo),
+            credentials : "include"
+        }).then((res)=>res.json()).then((data)=>{responddata = data })
         if(responddata.success){
-            alert("خوش امدید")
-        }else{
-            alert(responddata.message)
-        }
+            let resdatas ; 
+            const value = Cookies.get('jwt')
+            await fetch("http://localhost:4000/jwt",{
+                method : "POST",
+                headers : {
+                    Accept : "application/json",
+                    "Content-Type" : "application/json"
+                },
+                body: JSON.stringify({cookiess : value}), 
+            }).then((res)=>res.json()).then((data)=>resdatas = data )
+            if(resdatas.success){
+                alert("خوش امدید")
+                window.location.reload()
+            }
+            }else{
+            alert(resdata.message)
+            }
+        
     }
 
     //<---------------------- verifiction --------------------->//
@@ -110,6 +125,7 @@ export default function Context(props){
                 "Content-Type" : "application/json"
             },
             body : JSON.stringify(resetpasswordinfo)
+            
         }).then((res)=>res.json()).then((data)=>{responddata = data ; console.log(data)})
         if(responddata.success){
             alert(responddata.message)
