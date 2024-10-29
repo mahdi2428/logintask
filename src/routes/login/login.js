@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const tokengenerater = require('../../model/jwt')
 const Usersinfo = require('../../model/user');
 
 
@@ -11,6 +11,8 @@ router.post('/',async(req,res)=>{
         if(finduser.isVerified){
         const compration = finduser.password === req.body.password
         if(compration){
+            const token = tokengenerater(finduser.id)
+            res.cookie('jwt' , token)
             res.json({
                 success : true ,
                 finduser
@@ -34,7 +36,7 @@ router.post('/',async(req,res)=>{
     })}
     
     }catch(err){
-    
+        console.log(err)
     }}
 )
 

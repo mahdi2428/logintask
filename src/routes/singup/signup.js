@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const usersinfo = require("../../model/user");
 const verification = require('./nodemailer')
-
 const generateVerifictionCode = Number(Math.floor(100000 + Math.random() * 90000))
 
 router.post('/',async(req,res)=>{
@@ -16,7 +15,7 @@ router.post('/',async(req,res)=>{
         phoneNum : req.body.phoneNum ,
         verifictionCode : code ,
         isVerified : false , 
-        urlToken : null
+        urlToken : null ,
     })
     verification(createUsers , code )
     res.json({
